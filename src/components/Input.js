@@ -1,6 +1,6 @@
 const InputColor = ({ value, onChange, label, type, id, name }) => {
   return (
-    <div className="pb-6 mb-12 border-b">
+    <div className={`pb-6 mb-12 border-b`}>
       <label className="text-sm mb-2 inline-block" htmlFor={name}>
         {label}
       </label>

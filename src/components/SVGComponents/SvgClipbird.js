@@ -55,7 +55,10 @@ function SvgClipbird({
           />
 
           <text
-            onClick={changeText}
+            onClick={() => {
+              changeText();
+              handleSelect('text');
+            }}
             fontSize="48"
             fill={textfill}
             textAnchor="middle"

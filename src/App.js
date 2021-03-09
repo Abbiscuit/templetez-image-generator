@@ -1,24 +1,77 @@
 import React, { useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { exportComponentAsJPEG } from 'react-component-export-image';
 import Button from './components/Button';
 import Header from './components/Header';
 import Input from './components/Input';
 import SvgClipbird from './components/SVGComponents/SvgClipbird';
 
+const templates = [
+  {
+    id: 1,
+    title: 'template_a',
+    url:
+      'https://images.unsplash.com/photo-1591693898234-f2bba7c8beaa?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NjF8fHBhbGV0dGV8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
+    type: {
+      border: 1,
+      title: 1,
+      description: 1,
+      illustration: 1,
+    },
+  },
+  {
+    id: 2,
+    title: 'template_b',
+    url:
+      'https://images.unsplash.com/photo-1471666875520-c75081f42081?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NjR8fHBhbGV0dGV8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
+    type: {
+      border: 0,
+      title: 1,
+      description: 0,
+      illustration: 1,
+    },
+  },
+  {
+    id: 3,
+    title: 'template_c',
+    url:
+      'https://images.unsplash.com/photo-1471666875520-c75081f42081?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NjR8fHBhbGV0dGV8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
+    type: {
+      border: 1,
+      title: 1,
+      description: 0,
+      illustration: 0,
+    },
+  },
+];
+
 function App() {
   const componentRef = useRef();
-  const [borderFill, setBorderFill] = useState('#F9A826');
-  const [bgFill, setBgFill] = useState('#ffffff');
-  const [textfill, setTextFill] = useState('#222222');
-  const [inputText, setInputText] = useState('始めよう！');
 
-  const [string, setString] = useState(null);
-  const [toggle, setToggle] = useState(false);
+  /* タイトル (title) */
+  const [inputText, setInputText] = useState('始めよう！');
+  /* 背景色 (bgColor) */
+  const [bgFill, setBgFill] = useState('#ffffff');
+  /* 枠線色 (borderColor) */
+  const [borderFill, setBorderFill] = useState('#F9A826');
+  /* 枠形 (borderShape) */
   const [changeShape, setChangeShape] = useState(true);
+  /* 画像 (avatarImg) */
   const [character, setCharacter] = useState('woman');
+  /* 説明文 (description) */
+  const [textfill, setTextFill] = useState('#222222');
+
+  /* テンプレートタイプ */
+  const [type, setType] = useState(0);
+
+  /* Utils */
+  const [tempType, setTempType] = useState(null);
+  const [toggle, setToggle] = useState(false);
+
+  useEffect(() => {}, [tempType]);
 
   const handleSelect = id => {
-    setString(id);
+    setTempType(id);
   };
 
   const changeText = e => {
@@ -29,8 +82,44 @@ function App() {
     <div className="App">
       <section>
         <div className="flex">
-          <div className="w-3/4">
+          {/* Left Panel */}
+          <div className="w-1/4 h-screen bg-gray-50 border-r">
             <Header title="Templetez 📷🔥" href="/" />
+            <div className="flex items-center"></div>
+            <div className="px-4">
+              <div className="pb-6 mb-12 border-b">
+                <div className="text-sm mb-2 ">イラスト選択</div>
+                <div className="grid grid-cols-2 gap-2">
+                  {templates.map(template => (
+                    <figure
+                      key={template.id}
+                      id={template.id}
+                      type={template.type}
+                      onClick={() => {
+                        console.log(template.type);
+                        setType(template.type);
+                      }}
+                    >
+                      <img
+                        className="h-full w-full max-h-40 object-cover"
+                        src={template.url}
+                        alt={template.title}
+                      />
+                    </figure>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Center Panel */}
+          <div className="w-2/4">
+            <div className="h-16 mb-24 flex items-center border-b bg-gray-50"></div>
+            <p className="bg-pink-100">{`テンプレの種類(一時的表示): 
+            Border: ${type.border}
+            Title: ${type.title}
+            Description: ${type.description}
+            Illustration: ${type.illustration}`}</p>
             <div
               ref={componentRef}
               style={{ maxWidth: 575, maxHeight: 575, margin: '0 auto' }}
@@ -47,10 +136,11 @@ function App() {
               />
             </div>
           </div>
+          {/* Right Panel */}
           <div className="w-1/4 h-screen bg-gray-50 border-l">
             <div className="h-16 mb-24 flex items-center border-b"></div>
             <div className="px-4">
-              {string === 'backgroundFill' && (
+              <div className={tempType === 'backgroundFill' && `outline-black`}>
                 <Input
                   type="color"
                   id="backgroundFill"
@@ -59,41 +149,49 @@ function App() {
                   value={bgFill}
                   onChange={e => setBgFill(e.target.value)}
                 />
+              </div>
+
+              {type.border > 0 && (
+                <div className={tempType === 'borderFill' && `outline-black`}>
+                  <Input
+                    type="color"
+                    id="borderFill"
+                    name="borderFill"
+                    label="枠線カラー"
+                    value={borderFill}
+                    onChange={e => setBorderFill(e.target.value)}
+                  />
+                </div>
               )}
 
-              {string === 'borderFill' && (
-                <Input
-                  type="color"
-                  id="borderFill"
-                  name="borderFill"
-                  label="枠線カラー"
-                  value={borderFill}
-                  onChange={e => setBorderFill(e.target.value)}
-                />
-              )}
-
-              {toggle && (
-                <>
-                  <div className="pb-6 mb-12 border-b">
-                    <div className="text-sm mb-2 ">テキスト</div>
-                    <Input
-                      type="text"
-                      id=""
-                      name="text"
-                      value={inputText}
-                      onChange={e => setInputText(e.target.value)}
-                    />
-                    <Input
-                      type="color"
-                      id="textfill"
-                      name="textfill"
-                      label="テキストカラー"
-                      value={textfill}
-                      onChange={e => setTextFill(e.target.value)}
-                    />
-                  </div>
-                </>
-              )}
+              {type.title > 0 &&
+                [...Array(type.title + type.description)].map((_, i) => {
+                  return (
+                    <div
+                      className={`pb-6 mb-12 border-b ${
+                        tempType === 'text' && `outline-black`
+                      }`}
+                      key={i}
+                    >
+                      <div className="text-sm mb-2 ">テキスト</div>
+                      <Input
+                        type="text"
+                        id=""
+                        name="text"
+                        value={inputText}
+                        onChange={e => setInputText(e.target.value)}
+                      />
+                      <Input
+                        type="color"
+                        id="textfill"
+                        name="textfill"
+                        label="テキストカラー"
+                        value={textfill}
+                        onChange={e => setTextFill(e.target.value)}
+                      />
+                    </div>
+                  );
+                })}
 
               <div className="pb-6 mb-12 border-b">
                 <div className="text-sm mb-2 ">シェイプ</div>
@@ -122,21 +220,25 @@ function App() {
               </div>
 
               <div className="pb-6 mb-12 border-b">
-                <div className="text-sm mb-2 ">イラスト選択</div>
+                {type.illustration > 0 && (
+                  <>
+                    <div className="text-sm mb-2 ">イラスト選択</div>
 
-                <button
-                  onClick={() => setCharacter('woman')}
-                  className="px-4 py-2 border rounded-md bg-gray-50 focus:bg-gray-200 mr-4"
-                >
-                  Type A
-                </button>
+                    <button
+                      onClick={() => setCharacter('woman')}
+                      className="px-4 py-2 border rounded-md bg-gray-50 focus:bg-gray-200 mr-4"
+                    >
+                      Type A
+                    </button>
 
-                <button
-                  onClick={() => setCharacter('man')}
-                  className="px-4 py-2 border rounded-md bg-gray-50 focus:bg-gray-200 mr-4"
-                >
-                  Type B
-                </button>
+                    <button
+                      onClick={() => setCharacter('man')}
+                      className="px-4 py-2 border rounded-md bg-gray-50 focus:bg-gray-200 mr-4"
+                    >
+                      Type B
+                    </button>
+                  </>
+                )}
               </div>
 
               <div className="pb-6 mb-12 border-b">

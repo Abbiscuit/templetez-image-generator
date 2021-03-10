@@ -4,8 +4,17 @@ import { exportComponentAsJPEG } from 'react-component-export-image';
 import Button from './components/Button';
 import Header from './components/Header';
 import Input from './components/Input';
-import { CardCircle, PatternB, TempCard } from './components/SVGComponents';
+import {
+  CardCircle,
+  PatternB,
+  Practice,
+  TempA,
+  TempC,
+  TempCard,
+} from './components/SVGComponents';
 import SvgClipbird from './components/SVGComponents/SvgClipbird';
+
+import html2canvas from 'html2canvas';
 
 const templates = [
   {
@@ -56,6 +65,10 @@ function App() {
 
   /* 背景色 (bgColor) */
   const [bgFill, setBgFill] = useState('#ffffff');
+  const [bgImage, setBgImage] = useState(
+    'https://images.unsplash.com/photo-1471666875520-c75081f42081?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NjR8fHBhbGV0dGV8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60'
+  );
+
   /* 枠線色 (borderColor) */
   const [borderFill, setBorderFill] = useState('#F9A826');
   /* 枠形 (borderShape) */
@@ -71,6 +84,7 @@ function App() {
   /* Utils */
   const [tempType, setTempType] = useState(null);
   const [toggle, setToggle] = useState(false);
+  const [displayCanvas, setDisplayCanvas] = useState('');
 
   useEffect(() => {}, [tempType]);
 
@@ -80,6 +94,43 @@ function App() {
 
   const changeText = e => {
     setToggle(true);
+  };
+
+  // const printDocument = () => {
+  //   html2canvas(document.getElementById('capture')).then(canvas => {
+  //     document.getElementById('capture').appendChild(canvas);
+  //   });
+  // };
+
+  const printDocument = async () => {
+    // 画像に変換する component の id を指定
+    const target = document.getElementById('capture');
+    const canvas = await html2canvas(target);
+    const targetImgUri = canvas.toDataURL('img/png');
+    target.appendChild(canvas);
+    // saveAsImage(targetImgUri);
+  };
+
+  const saveAsImage = async uri => {
+    const downloadLink = document.createElement('a');
+
+    if (typeof downloadLink.download === 'string') {
+      downloadLink.href = uri;
+
+      // ファイル名
+      downloadLink.download = 'component.png';
+
+      // Firefox では body の中にダウンロードリンクがないといけないので一時的に追加
+      document.body.appendChild(downloadLink);
+
+      // ダウンロードリンクが設定された a タグをクリック
+      downloadLink.click();
+
+      // Firefox 対策で追加したリンクを削除しておく
+      document.body.removeChild(downloadLink);
+    } else {
+      window.open(uri);
+    }
   };
 
   return (
@@ -125,9 +176,20 @@ function App() {
             Description: ${type.description}
             Illustration: ${type.illustration}`}</p>
             <div
+              id="capture"
               ref={componentRef}
-              style={{ maxWidth: 575, maxHeight: 575, margin: '0 auto' }}
+              style={{
+                maxWidth: 575,
+                maxHeight: 575,
+                margin: '0 auto',
+                border: '1px solid #bbb',
+                backgroundImage:
+                  "url('https://images.unsplash.com/photo-1471666875520-c75081f42081?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NjR8fHBhbGV0dGV8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')",
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
             >
+              <Practice bgFill={bgFill} borderFill={borderFill} />
               {/* <SvgClipbird
                 bgFill={bgFill}
                 borderFill={borderFill}
@@ -151,6 +213,18 @@ function App() {
                 textfill={textfill}
               /> */}
 
+              {/* <TempC
+                bgImage={bgImage}
+                bgFill={bgFill}
+                text={inputText}
+                text2={inputText2}
+                handleSelect={id => handleSelect(id)}
+                changeText={changeText}
+                shape={changeShape}
+                character={character}
+                textfill={textfill}
+              /> */}
+
               {/* <PatternB
                 bgFill={bgFill}
                 borderFill={borderFill}
@@ -161,8 +235,8 @@ function App() {
                 shape={changeShape}
                 character={character}
                 textfill={textfill}
-              />
-              <CardCircle
+              /> */}
+              {/* <CardCircle
                 bgFill={bgFill}
                 borderFill={borderFill}
                 text={inputText}
@@ -300,8 +374,12 @@ function App() {
               </div>
 
               <div className="pb-6 mb-12 border-b">
+                <Button type="button" onClick={() => printDocument()}>
+                  HTML2CANVAS
+                </Button>
                 <Button
                   type="button"
+                  // onClick={() => printDocument()}
                   onClick={() => exportComponentAsJPEG(componentRef)}
                 >
                   画像をダウンロード

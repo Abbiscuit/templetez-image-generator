@@ -1,0 +1,5 @@
+export { default as ManA } from './ManA'
+export { default as ManB } from './ManB'
+export { default as WomanA } from './WomanA'
+export { default as WomanB } from './WomanB'
+export { default as TempCard } from './TempCard'

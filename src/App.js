@@ -4,6 +4,7 @@ import { exportComponentAsJPEG } from 'react-component-export-image';
 import Button from './components/Button';
 import Header from './components/Header';
 import Input from './components/Input';
+import { TempCard } from './components/SVGComponents';
 import SvgClipbird from './components/SVGComponents/SvgClipbird';
 
 const templates = [
@@ -50,6 +51,9 @@ function App() {
 
   /* タイトル (title) */
   const [inputText, setInputText] = useState('始めよう！');
+  const [inputText2, setInputText2] = useState('');
+  const [inputText3, setInputText3] = useState('');
+
   /* 背景色 (bgColor) */
   const [bgFill, setBgFill] = useState('#ffffff');
   /* 枠線色 (borderColor) */
@@ -57,7 +61,7 @@ function App() {
   /* 枠形 (borderShape) */
   const [changeShape, setChangeShape] = useState(true);
   /* 画像 (avatarImg) */
-  const [character, setCharacter] = useState('woman');
+  const [character, setCharacter] = useState('');
   /* 説明文 (description) */
   const [textfill, setTextFill] = useState('#222222');
 
@@ -124,10 +128,22 @@ function App() {
               ref={componentRef}
               style={{ maxWidth: 575, maxHeight: 575, margin: '0 auto' }}
             >
-              <SvgClipbird
+              {/* <SvgClipbird
                 bgFill={bgFill}
                 borderFill={borderFill}
                 text={inputText}
+                handleSelect={id => handleSelect(id)}
+                changeText={changeText}
+                shape={changeShape}
+                character={character}
+                textfill={textfill}
+              /> */}
+
+              <TempCard
+                bgFill={bgFill}
+                borderFill={borderFill}
+                text={inputText}
+                text2={inputText2}
                 handleSelect={id => handleSelect(id)}
                 changeText={changeText}
                 shape={changeShape}
@@ -137,7 +153,7 @@ function App() {
             </div>
           </div>
           {/* Right Panel */}
-          <div className="w-1/4 h-screen bg-gray-50 border-l">
+          <div className="w-1/4 h-screen bg-gray-50 border-l overflow-y-scroll">
             <div className="h-16 mb-24 flex items-center border-b"></div>
             <div className="px-4">
               <div className={tempType === 'backgroundFill' && `outline-black`}>
@@ -180,6 +196,13 @@ function App() {
                         name="text"
                         value={inputText}
                         onChange={e => setInputText(e.target.value)}
+                      />
+                      <Input
+                        type="text"
+                        id=""
+                        name="text"
+                        value={inputText2}
+                        onChange={e => setInputText2(e.target.value)}
                       />
                       <Input
                         type="color"
@@ -225,17 +248,29 @@ function App() {
                     <div className="text-sm mb-2 ">イラスト選択</div>
 
                     <button
-                      onClick={() => setCharacter('woman')}
+                      onClick={() => setCharacter('typeA')}
                       className="px-4 py-2 border rounded-md bg-gray-50 focus:bg-gray-200 mr-4"
                     >
                       Type A
                     </button>
 
                     <button
-                      onClick={() => setCharacter('man')}
+                      onClick={() => setCharacter('typeB')}
                       className="px-4 py-2 border rounded-md bg-gray-50 focus:bg-gray-200 mr-4"
                     >
                       Type B
+                    </button>
+                    <button
+                      onClick={() => setCharacter('typeC')}
+                      className="px-4 py-2 border rounded-md bg-gray-50 focus:bg-gray-200 mr-4"
+                    >
+                      Type C
+                    </button>
+                    <button
+                      onClick={() => setCharacter('typeD')}
+                      className="px-4 py-2 border rounded-md bg-gray-50 focus:bg-gray-200 mr-4"
+                    >
+                      Type D
                     </button>
                   </>
                 )}

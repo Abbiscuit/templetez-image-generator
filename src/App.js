@@ -4,7 +4,7 @@ import { exportComponentAsJPEG } from 'react-component-export-image';
 import Button from './components/Button';
 import Header from './components/Header';
 import Input from './components/Input';
-import { TempCard } from './components/SVGComponents';
+import { CardCircle, PatternB, TempCard } from './components/SVGComponents';
 import SvgClipbird from './components/SVGComponents/SvgClipbird';
 
 const templates = [
@@ -137,7 +137,7 @@ function App() {
                 shape={changeShape}
                 character={character}
                 textfill={textfill}
-              /> */}
+              />
 
               <TempCard
                 bgFill={bgFill}
@@ -149,7 +149,30 @@ function App() {
                 shape={changeShape}
                 character={character}
                 textfill={textfill}
+              /> */}
+
+              {/* <PatternB
+                bgFill={bgFill}
+                borderFill={borderFill}
+                text={inputText}
+                text2={inputText2}
+                handleSelect={id => handleSelect(id)}
+                changeText={changeText}
+                shape={changeShape}
+                character={character}
+                textfill={textfill}
               />
+              <CardCircle
+                bgFill={bgFill}
+                borderFill={borderFill}
+                text={inputText}
+                text2={inputText2}
+                handleSelect={id => handleSelect(id)}
+                changeText={changeText}
+                shape={changeShape}
+                character={character}
+                textfill={textfill}
+              /> */}
             </div>
           </div>
           {/* Right Panel */}

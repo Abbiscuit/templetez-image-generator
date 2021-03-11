@@ -70,14 +70,23 @@ function Practice(props) {
       <g fill="red">
         <rect x="0" y="0" width="10" height="10" transform="translate(40,40)" />
         <rect x="20" y="0" width="10" height="10" />
-        <image
+        {/* <image
           x="90"
           y="-65"
           width="128"
           height="146"
           transform="rotate(5)"
           href={logo}
-        />
+        /> */}
+
+        {props.imgResource && (
+          <image
+            xlinkHref={props.imgResource}
+            height="200"
+            width="200"
+            style={{ y: 250, x: 400 }}
+          />
+        )}
       </g>
     </svg>
   );

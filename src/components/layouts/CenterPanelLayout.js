@@ -21,6 +21,7 @@ const CenterPanelLayout = ({ children, componentRef }) => {
           border: '1px solid #bbb',
         }}
       >
+        {/* Template comes here... */}
         {children}
       </div>
     </>

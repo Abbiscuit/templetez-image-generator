@@ -1,12 +1,11 @@
-import { useState } from 'react';
+import { useCustomizeTemplate } from './CustomTemplateProvider';
 
 const useBase64Converter = () => {
-  const [baseImage, setBaseImage] = useState('');
+  const { setBaseImage } = useCustomizeTemplate();
 
   const uploadImage = async e => {
     const file = e.target.files[0];
     const base64Img = await convertBase64(file);
-    console.log(base64Img, 'encoded img file');
     setBaseImage(base64Img);
   };
 
@@ -27,7 +26,6 @@ const useBase64Converter = () => {
 
   return {
     uploadImage,
-    baseImage,
   };
 };
 

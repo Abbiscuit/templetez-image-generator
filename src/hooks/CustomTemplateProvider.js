@@ -21,12 +21,17 @@ const CustomTemplateProvider = ({ children }) => {
   const [textfill, setTextFill] = useState('#222222');
 
   /* テンプレートタイプ */
-  const [type, setType] = useState(0);
+  const [type, setType] = useState({
+    id: 1,
+    tempInfo: { border: 1, title: 1, description: 0, illustration: 1 },
+  });
 
   /* Utils */
   const [tempType, setTempType] = useState(null);
   const [toggle, setToggle] = useState(false);
   const [displayCanvas, setDisplayCanvas] = useState('');
+
+  const [baseImage, setBaseImage] = useState('');
 
   return (
     <CustomTempleteContext.Provider
@@ -43,6 +48,7 @@ const CustomTemplateProvider = ({ children }) => {
         tempType,
         toggle,
         displayCanvas,
+        baseImage,
         setInputText,
         setInputText2,
         setInputText3,
@@ -55,6 +61,7 @@ const CustomTemplateProvider = ({ children }) => {
         setTempType,
         setToggle,
         setDisplayCanvas,
+        setBaseImage,
       }}
     >
       {children}

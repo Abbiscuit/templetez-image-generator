@@ -1,20 +1,21 @@
 import * as React from 'react';
 import { ManA, ManB, WomanA, WomanB } from '.';
 
-function SvgClipbird({
-  title,
-  titleId,
-  bgFill,
-  borderFill,
-  handleSelect,
-  handleBgSelect,
-  changeText,
-  shape,
-  text,
-  textfill,
-  character,
-  ...props
-}) {
+function SvgClipbird(props) {
+  const {
+    title,
+    titleId,
+    bgFill,
+    borderFill,
+    handleSelect,
+    changeText,
+    shape,
+    inputText,
+    textfill,
+    character,
+    imgResource,
+  } = props;
+
   return (
     <svg
       width={575}
@@ -65,7 +66,7 @@ function SvgClipbird({
             x="250"
             y="405"
           >
-            {text}
+            {inputText}
           </text>
 
           <path
@@ -78,6 +79,14 @@ function SvgClipbird({
         {character === 'typeB' && <ManB />}
         {character === 'typeC' && <WomanA />}
         {character === 'typeD' && <WomanB />}
+        {character === 'original' && (
+          <image
+            xlinkHref={imgResource}
+            y="300"
+            x="300"
+            style={{ y: 250, x: 300 }}
+          />
+        )}
       </g>
       <defs>
         <clipPath id="prefix__clip0">

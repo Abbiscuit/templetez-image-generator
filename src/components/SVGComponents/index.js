@@ -1,7 +1,6 @@
 export { default as ManA } from './ManA';
 export { default as ManB } from './ManB';
 export { default as PatternB } from './PatternB';
-export { default as TempA } from './TempA';
 export { default as TempC } from './TempC';
 export { default as WomanA } from './WomanA';
 export { default as WomanB } from './WomanB';

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import logo from '../../images/photo.jpeg';
 
 function Practice(props) {
   return (
@@ -10,7 +9,6 @@ function Practice(props) {
       width={575}
       height={575}
       xmlns="http://www.w3.org/2000/svg"
-      {...props}
     >
       <rect height="100%" width="100%" fill="none"></rect>
 
@@ -61,8 +59,8 @@ function Practice(props) {
 
       <text x="60" y="500" fill="black">
         This is bold text{'   '}
-        <tspan fontWeight="bold" fill="red" fontSize="32">
-          This is bold and red{'   '}
+        <tspan fontWeight="bold" fill={props.textfill} fontSize="32">
+          {props.inputText}
         </tspan>
         This is bold text{'   '}
       </text>
@@ -84,7 +82,7 @@ function Practice(props) {
             xlinkHref={props.imgResource}
             height="200"
             width="200"
-            style={{ y: 250, x: 400 }}
+            style={{ y: 250, x: 300 }}
           />
         )}
       </g>

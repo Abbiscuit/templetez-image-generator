@@ -29,7 +29,7 @@ const RightPanel = () => {
     <>
       <div className="h-16 mb-24 flex items-center border-b"></div>
       <div className="px-4">
-        <div className={tempType === 'backgroundFill' && `outline-black`}>
+        <div className={tempType === 'backgroundFill' ? `outline-black` : ''}>
           <Input
             type="color"
             id="backgroundFill"
@@ -40,8 +40,8 @@ const RightPanel = () => {
           />
         </div>
 
-        {type.border > 0 && (
-          <div className={tempType === 'borderFill' && `outline-black`}>
+        {type.tempInfo && type.tempInfo.border > 0 && (
+          <div className={tempType === 'borderFill' ? `outline-black` : ''}>
             <Input
               type="color"
               id="borderFill"
@@ -53,41 +53,44 @@ const RightPanel = () => {
           </div>
         )}
 
-        {type.title > 0 &&
-          [...Array(type.title + type.description)].map((_, i) => {
-            return (
-              <div
-                className={`pb-6 mb-12 border-b ${
-                  tempType === 'text' && `outline-black`
-                }`}
-                key={i}
-              >
-                <div className="text-sm mb-2 ">テキスト</div>
-                <Input
-                  type="text"
-                  id=""
-                  name="text"
-                  value={inputText}
-                  onChange={e => setInputText(e.target.value)}
-                />
-                <Input
-                  type="text"
-                  id=""
-                  name="text"
-                  value={inputText2}
-                  onChange={e => setInputText2(e.target.value)}
-                />
-                <Input
-                  type="color"
-                  id="textfill"
-                  name="textfill"
-                  label="テキストカラー"
-                  value={textfill}
-                  onChange={e => setTextFill(e.target.value)}
-                />
-              </div>
-            );
-          })}
+        {type.tempInfo &&
+          type.tempInfo.title > 0 &&
+          [...Array(type.tempInfo.title + type.tempInfo.description)].map(
+            (_, i) => {
+              return (
+                <div
+                  className={`pb-6 mb-12 border-b ${
+                    tempType === 'text' ? `outline-black` : ''
+                  }`}
+                  key={i}
+                >
+                  <div className="text-sm mb-2 ">テキスト</div>
+                  <Input
+                    type="text"
+                    id=""
+                    name="text"
+                    value={inputText}
+                    onChange={e => setInputText(e.target.value)}
+                  />
+                  <Input
+                    type="text"
+                    id=""
+                    name="text"
+                    value={inputText2}
+                    onChange={e => setInputText2(e.target.value)}
+                  />
+                  <Input
+                    type="color"
+                    id="textfill"
+                    name="textfill"
+                    label="テキストカラー"
+                    value={textfill}
+                    onChange={e => setTextFill(e.target.value)}
+                  />
+                </div>
+              );
+            }
+          )}
 
         <div className="pb-6 mb-12 border-b">
           <div className="text-sm mb-2 ">シェイプ</div>
@@ -110,13 +113,14 @@ const RightPanel = () => {
         </div>
 
         <div className="pb-6 mb-12 border-b">
-          {type.illustration > 0 && (
+          {type.tempInfo && type.tempInfo.illustration > 0 && (
             <>
               <div className="text-sm mb-2 ">イラスト選択</div>
 
               <input
                 type="file"
                 onChange={e => {
+                  setCharacter('original');
                   uploadImage(e);
                 }}
               />

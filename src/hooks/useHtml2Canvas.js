@@ -1,9 +1,6 @@
 import html2canvas from 'html2canvas';
-import { useState } from 'react';
 
 const useHtml2Canvas = () => {
-  const [image, setImage] = useState('');
-
   const printDocument = async targetId => {
     // 画像に変換する component の id を指定
     const target = document.getElementById(targetId);
